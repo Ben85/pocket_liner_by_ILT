@@ -15,25 +15,38 @@ SET row_security = off;
 
 SET search_path = public, pg_catalog;
 
+ALTER TABLE IF EXISTS ONLY public.transactions DROP CONSTRAINT IF EXISTS transactions_fk;
+ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS users_id_pk;
+ALTER TABLE IF EXISTS public.transactions ALTER COLUMN user_id DROP DEFAULT;
+ALTER TABLE IF EXISTS public.transactions ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE IF EXISTS public.categories ALTER COLUMN id DROP DEFAULT;
+DROP TABLE IF EXISTS public.users;
+DROP SEQUENCE IF EXISTS public.transactions_user_id_seq;
+DROP SEQUENCE IF EXISTS public.transactions_id_seq;
+DROP TABLE IF EXISTS public.transactions;
+DROP SEQUENCE IF EXISTS public.categories_id_seq;
+DROP TABLE IF EXISTS public.categories;
+SET search_path = public, pg_catalog;
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: categories; Type: TABLE; Schema: public; Owner: marci
+-- Name: categories; Type: TABLE; Schema: public; Owner: bende
 --
 
 CREATE TABLE categories (
     id integer NOT NULL,
     category character varying(255) NOT NULL,
-    transaction_type integer NOT NULL
+    income boolean NOT NULL
 );
 
 
-ALTER TABLE categories OWNER TO marci;
+ALTER TABLE categories OWNER TO bende;
 
 --
--- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: marci
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: bende
 --
 
 CREATE SEQUENCE categories_id_seq
@@ -44,17 +57,17 @@ CREATE SEQUENCE categories_id_seq
     CACHE 1;
 
 
-ALTER TABLE categories_id_seq OWNER TO marci;
+ALTER TABLE categories_id_seq OWNER TO bende;
 
 --
--- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: marci
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bende
 --
 
 ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
 
 
 --
--- Name: transactions; Type: TABLE; Schema: public; Owner: marci
+-- Name: transactions; Type: TABLE; Schema: public; Owner: bende
 --
 
 CREATE TABLE transactions (
@@ -67,10 +80,10 @@ CREATE TABLE transactions (
 );
 
 
-ALTER TABLE transactions OWNER TO marci;
+ALTER TABLE transactions OWNER TO bende;
 
 --
--- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: marci
+-- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: bende
 --
 
 CREATE SEQUENCE transactions_id_seq
@@ -81,17 +94,17 @@ CREATE SEQUENCE transactions_id_seq
     CACHE 1;
 
 
-ALTER TABLE transactions_id_seq OWNER TO marci;
+ALTER TABLE transactions_id_seq OWNER TO bende;
 
 --
--- Name: transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: marci
+-- Name: transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bende
 --
 
 ALTER SEQUENCE transactions_id_seq OWNED BY transactions.id;
 
 
 --
--- Name: transactions_user_id_seq; Type: SEQUENCE; Schema: public; Owner: marci
+-- Name: transactions_user_id_seq; Type: SEQUENCE; Schema: public; Owner: bende
 --
 
 CREATE SEQUENCE transactions_user_id_seq
@@ -102,17 +115,17 @@ CREATE SEQUENCE transactions_user_id_seq
     CACHE 1;
 
 
-ALTER TABLE transactions_user_id_seq OWNER TO marci;
+ALTER TABLE transactions_user_id_seq OWNER TO bende;
 
 --
--- Name: transactions_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: marci
+-- Name: transactions_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bende
 --
 
 ALTER SEQUENCE transactions_user_id_seq OWNED BY transactions.user_id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: marci
+-- Name: users; Type: TABLE; Schema: public; Owner: bende
 --
 
 CREATE TABLE users (
@@ -122,76 +135,70 @@ CREATE TABLE users (
 );
 
 
-ALTER TABLE users OWNER TO marci;
+ALTER TABLE users OWNER TO bende;
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: marci
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bende
 --
 
 ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: marci
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bende
 --
 
 ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_id_seq'::regclass);
 
 
 --
--- Name: user_id; Type: DEFAULT; Schema: public; Owner: marci
+-- Name: user_id; Type: DEFAULT; Schema: public; Owner: bende
 --
 
 ALTER TABLE ONLY transactions ALTER COLUMN user_id SET DEFAULT nextval('transactions_user_id_seq'::regclass);
 
 
 --
--- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: marci
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: bende
 --
 
-COPY categories (id, category, transaction_type) FROM stdin;
-\.
 
 
 --
--- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marci
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bende
 --
 
 SELECT pg_catalog.setval('categories_id_seq', 1, false);
 
 
 --
--- Data for Name: transactions; Type: TABLE DATA; Schema: public; Owner: marci
+-- Data for Name: transactions; Type: TABLE DATA; Schema: public; Owner: bende
 --
 
-COPY transactions (id, category, date, amount, note, user_id) FROM stdin;
-\.
 
 
 --
--- Name: transactions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marci
+-- Name: transactions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bende
 --
 
 SELECT pg_catalog.setval('transactions_id_seq', 1, false);
 
 
 --
--- Name: transactions_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marci
+-- Name: transactions_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bende
 --
 
 SELECT pg_catalog.setval('transactions_user_id_seq', 1, false);
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: marci
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: bende
 --
 
-COPY users (id, name, e_mail) FROM stdin;
-\.
 
 
 --
--- Name: users_id_pk; Type: CONSTRAINT; Schema: public; Owner: marci
+-- Name: users_id_pk; Type: CONSTRAINT; Schema: public; Owner: bende
 --
 
 ALTER TABLE ONLY users
@@ -199,21 +206,11 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: transactions_fk; Type: FK CONSTRAINT; Schema: public; Owner: marci
+-- Name: transactions_fk; Type: FK CONSTRAINT; Schema: public; Owner: bende
 --
 
 ALTER TABLE ONLY transactions
     ADD CONSTRAINT transactions_fk FOREIGN KEY (user_id) REFERENCES users(id);
-
-
---
--- Name: public; Type: ACL; Schema: -; Owner: postgres
---
-
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 --
