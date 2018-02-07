@@ -18,12 +18,15 @@ def route_index():
 
 @app.route('/registration', methods=['POST', 'GET'])
 def route_register():
-    return 'Whatever'
+    user_data = request.form.to_dict()
+
+    data_manager.register_user(user_data)
+    return redirect(url_for(route_index))
 
 
 @app.route('/login', methods=['POST', 'GET'])
 def route_login():
-    return 'Login'
+    pass
 
 
 @app.route('/<user_id>')

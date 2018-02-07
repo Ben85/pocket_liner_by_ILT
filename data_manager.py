@@ -1,8 +1,23 @@
 import connection
 
 @connection.connection_handler
-def register_user():
+def register_user(cursor, new_user_data):
+    cursor.execute("""INSERT INTO users(
+                      name, e_mail, pass_hash)
+                      VALUES (%(name)s, %(e_mail)s, %(pass_hash)s);
+                      """, {'name' : new_user_data['username_reg'], 'e_mail' : new_user_data['e_mail_reg'], 'pass_hash' : new_user_data['password_reg']})
+
+
+@connection.connection_handler
+def get_user_id_by_email(cursor, e_mail):
     pass
+
+
+@connection.connection_handler
+def check_if_registered(cursor):
+    cursor.execute("""
+    """)
+
 
 @connection.connection_handler
 def get_users_last_month_balance(cursor, user_id):
