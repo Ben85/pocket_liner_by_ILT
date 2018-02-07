@@ -1,5 +1,8 @@
 import connection
 
+@connection.connection_handler
+def register_user():
+    pass
 
 @connection.connection_handler
 def get_users_last_month_balance(cursor, user_id):

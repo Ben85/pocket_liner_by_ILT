@@ -4,26 +4,31 @@ import data_manager
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def route_index():
-    pass
+    if request.method == 'POST':
+        session.clear()
+
+        if request.form['password'] == 'password':
+            session['user'] = request.form['username']
+            return redirect(url_for('route_user_page'))
+
+    return render_template('index.html')
 
 
-@app.route('/registration')
+@app.route('/registration', methods=['POST', 'GET'])
 def route_register():
-    # redirect to '/'. if successfull or not
-    pass
+    return 'Whatever'
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST', 'GET'])
 def route_login():
-    # redirects to user_page
-    pass
+    return 'Login'
 
 
 @app.route('/<user_id>')
 def route_user_page(id):
-    pass
+    return render_template('user_index.html')
 
 
 @app.route('/spend')
@@ -46,6 +51,6 @@ if __name__ == '__main__':
     app.secret_key = 'TrainsAreAwesome'
     app.run(
         host='0.0.0.0',
-        port='5000',
+        port=5000,
         debug='True'
     )
