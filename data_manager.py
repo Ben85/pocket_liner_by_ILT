@@ -15,8 +15,11 @@ def get_user_id_by_email(cursor, e_mail):
 
 @connection.connection_handler
 def check_if_registered(cursor):
-    cursor.execute("""
+    cursor.execute("""SELECT id, name, pass_hash FROM users
+                      WHERE id, name, pass_hash;
     """)
+    infos = cursor.fetchall()
+    return infos
 
 
 @connection.connection_handler
