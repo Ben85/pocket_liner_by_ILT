@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, url_for, request, session
 import data_manager
+import encryption
 
 app = Flask(__name__)
 
@@ -19,7 +20,7 @@ def route_index():
 @app.route('/registration', methods=['POST', 'GET'])
 def route_register():
     user_data = request.form.to_dict()
-
+    user_data['password_reg'] = encryption.hash_password('password_reg')
     data_manager.register_user(user_data)
     return redirect(url_for(route_index))
 
