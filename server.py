@@ -17,9 +17,13 @@ def route_index():
     return render_template('index.html')
 
 
+
 @app.route('/registration', methods=['POST', 'GET'])
 def route_register():
     user_data = request.form.to_dict()
+    is_email_used = data_manager.email_used(request.form["e_mail_reg"])
+    if len(is_email_used) > 0:
+        return render_template('index.html', is_email_used = True)
     user_data['password_reg'] = encryption.hash_password('password_reg')
     data_manager.register_user(user_data)
     return redirect(url_for('route_index'))
