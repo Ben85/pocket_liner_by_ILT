@@ -64,10 +64,10 @@ def route_incomes():
     pass
 
 
-@app.route('/<int:user_id>/all-expenses')
+@app.route('/all-expenses')
 @login_required
-def route_all_expenses(user_id):
-    expenses = data_manager.get_all_expenses_by_user(user_id)
+def route_all_expenses():
+    expenses = data_manager.get_all_expenses_by_user(session['user_id'])
     return render_template('expenses.html', expenses=expenses)
 
 
