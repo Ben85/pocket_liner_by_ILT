@@ -75,6 +75,15 @@ def get_user_data_by_id(cursor, user_id):
 
 
 @connection.connection_handler
+def get_user_data_by_e_mail(cursor, e_mail):
+    cursor.execute("""
+                   SELECT * FROM users
+                   WHERE e_mail = %(e_mail)s
+                    """, {'e_mail': e_mail})
+    return cursor.fetchone()
+
+
+@connection.connection_handler
 def insert_income(cursor, user_id):
     pass
 
