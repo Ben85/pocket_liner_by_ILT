@@ -9,11 +9,11 @@ app = Flask(__name__)
 
 def login_required(function):
     @wraps(function)
-    def decorated_function(args, **kwargs):
+    def decorated_function(*args, **kwargs):
         if session == {}:
             flash("For this you need to log in")
             return redirect(url_for('login', next=request.url))
-        return function(args, **kwargs)
+        return function(*args, **kwargs)
     return decorated_function
 
 
@@ -36,7 +36,6 @@ def route_register():
 
 @app.route('/login', methods=['POST', 'GET'])
 def route_login():
-    test = request.form['e_mail']
     if validation.is_user_pass(request.form['password'], request.form['e_mail']):
         session['id'] = data_manager.get_user_id_by_email(request.form['e_mail'])
     else:
@@ -46,6 +45,7 @@ def route_login():
 
 
 @app.route('/<int:user_id>')
+@login_required
 def route_user_page(user_id):
     return render_template('user_index.html', user_id=user_id)
 
