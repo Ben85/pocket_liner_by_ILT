@@ -11,10 +11,14 @@
     <th>
         Amount
     </th>
-        {% for expense in expenses: %}
+        {% for expense in expenses %}
      <tr>
          <td>
-             {{ expense }}
+             {{ expense.category }}
+
+        </td>
+        <td>
+            {{ expense.amount }}
         </td>
      </tr>
         {% endfor %}

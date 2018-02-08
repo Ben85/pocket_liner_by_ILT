@@ -62,9 +62,9 @@ def get_users_current_balance(cursor, user_id):
 @connection.connection_handler
 def get_all_expenses_by_user(cursor, user_id):
     cursor.execute("""
-                             SELECT category, amount FROM transactions
-                             INNER JOIN categories ON transactions.category_id = categories.id
-                             INNER JOIN users ON categories.user_id = users.id
+                             SELECT transactions.category, amount FROM transactions
+                             INNER JOIN categories ON transactions.category = categories.category
+                             INNER JOIN users ON transactions.user_id = users.id
                              WHERE categories.income = False
                              AND users.id = %(user_id)s;
                                """,
