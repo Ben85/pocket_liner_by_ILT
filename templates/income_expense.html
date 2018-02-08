@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add income</title>
+</head>
+<body>
+    <h1>Add new income / expense </h1>
+
+<div>
+<form>
+    <p>Income category:</p>
+    <select category>
+        <option disabled selected value> - select an option - </option>
+        <option value="salary">Salary</option>
+        <option value="pension">Pension</option>
+        <option value="gift">Gift</option>
+        <option value="income_else">Income, else</option>
+    </select>
+    <input type="number" id="amount" name="amount" placeholder="amount" required>
+    <input type="date" name="date" placeholder="date" required>
+    <label for="date"> (e.g. 2018-01-01)</label>
+    <button type="submit">Income</button>
+</form>
+</div>
+
+<div>
+<form>
+    <p>Expense category:</p>
+    <select name="category" required>
+        <option disabled selected value> - select and option - </option>
+        <option value="food">Food</option>
+        <option value="health">Health</option>
+        <option value="clothes">Clothes</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="bills">Bills</option>
+        <option value="vacation">Vacation</option>
+        <option value="kids">Kids</option>
+        <option value="travel">Travel</option>
+        <option value="car">Car</option>
+        <option value="housekeeping">Housekeeping</option>
+        <option value="sports">Sports</option>
+        <option value="expense_else">Expense - Else</option>
+    </select>
+    <input type="number" id="amount" name="amount" placeholder="amount" required>
+    <input type="date" name="date" id="date" placeholder="date" required>
+    <label for="date"> (e.g. 2018-01-01)</label>
+    <input type="text" name="note" id="note" placeholder="note" required>
+    <button type="submit">Spent</button>
+</form>
+</div>
+
+</body>
+</html>
