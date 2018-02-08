@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def route_index():
-    pass
+    return render_template('index.html')
 
 
 @app.route('/registration')
@@ -36,9 +36,10 @@ def route_incomes():
     pass
 
 
-@app.route('/all-expenses')
-def route_all_expenses():
-    pass
+@app.route('/<user_id>/all-expenses')
+def route_all_expenses(user_id):
+    expenses = data_manager.get_all_expenses_by_user(user_id)
+    return render_template('expenses.html', expenses=expenses)
 
 
 
@@ -46,6 +47,6 @@ if __name__ == '__main__':
     app.secret_key = 'TrainsAreAwesome'
     app.run(
         host='0.0.0.0',
-        port='5000',
+        port= 5000,
         debug='True'
     )
