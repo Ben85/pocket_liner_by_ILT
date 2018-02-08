@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Pocket Liner</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Candal' rel='stylesheet'>
 </head>
 
 <body>
 
 
-<p> <h2>Welcome {{ session['user_name'] }}! </h2>
-    <h3>{{ session["user_e_mail"] }} </h3>
+<h2 class="h1-line">Welcome {{ session['user_name'] }}! </h2>
+
+<p>
+    <a href="/logout">Log out! </a>
 </p>
 
 <p>
     <a href="/all-expenses">All of my expenses</a>
 </p>
 
- <h1>Add new income / expense </h1>
+ <h1 id="add-new-in-ex">Add new income / expense </h1>
 
-<div>
+<div id="left" class="border">
 <form method="post" action="{{ url_for('route_incomes') }}">
-    <p>Income category:</p>
+    <p class="ex-in-cat">Income category:</p>
     <select name="category" required>
         <option disabled selected value> - select an option - </option>
         <option value="Salary">Salary</option>
@@ -28,16 +33,23 @@
         <option value="Gift">Gift</option>
         <option value="Income_else">Income, else</option>
     </select>
+    <br>
+    <br>
     <input type="number" id="in_amount" name="amount" placeholder="amount" required>
+    <br>
+    <br>
     <input type="date" id="in_date" name="date" placeholder="date" required>
+    <br>
     <label for="date"> (e.g. 2018-01-01)</label>
-    <button type="submit">Income</button>
+    <br>
+    <br>
+    <button type="submit" class="btn btn-outline-success">Income</button>
 </form>
 </div>
 
-<div>
+<div id="right" class="border">
 <form method="post" action="{{ url_for('route_spend_money') }}">
-    <p>Expense category:</p>
+    <p class="ex-in-cat">Expense category:</p>
     <select name="category" required>
         <option disabled selected value> - select an option - </option>
         <option value="Food">Food</option>
@@ -53,18 +65,22 @@
         <option value="Sports">Sports</option>
         <option value="Expense_else">Expense - Else</option>
     </select>
+    <br>
+    <br>
     <input type="number" id="amount" name="amount" placeholder="amount" required>
+    <br>
+    <br>
     <input type="date" name="date" id="date" placeholder="date" required>
+    <br>
     <label for="date"> (e.g. 2018-01-01)</label>
+    <br>
+    <br>
     <input type="text" name="note" id="note" placeholder="note" required>
-    <button type="submit">Spent</button>
+    <br>
+    <br>
+    <button type="submit" class="btn btn-outline-danger">Spent</button>
 </form>
 </div>
-
-<p>
-    <a href="/logout">Log out! </a>
-</p>
-
 
 
 </body>
