@@ -32,15 +32,15 @@ def route_register():
 @app.route('/login', methods=['POST', 'GET'])
 def route_login():
     if request.method == 'POST':
-        if validation.is_user_pass(request.form['password'], session['id']):
+        if validation.is_user_pass(request.form['password'], request.form['e_mail']):
             session['id'] = data_manager.get_user_id_by_email(request.form['e_mail'])
         else:
-            raise ValueError
+            raise ValueError('Incorrect password or e-mail')
 
     return redirect(url_for('route_user_page', session['id']))
 
 
-@app.route('/<user_id>')
+@app.route('/<int:user_id>')
 @login_required
 def route_user_page(id):
     pass

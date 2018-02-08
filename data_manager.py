@@ -13,10 +13,10 @@ def register_user(cursor, new_user_data):
 def get_user_id_by_email(cursor, e_mail):
     cursor.execute("""
                       SELECT id FROM users
-                      WHERE e_mail= %(e_mail)s;
+                      WHERE e_mail = %(e_mail)s;
     """, {'e_mail': e_mail})
-    id = cursor.fetchone()
-    return id
+    id_dic = cursor.fetchone()
+    return id_dic['id']
 
 
 @connection.connection_handler
