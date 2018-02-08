@@ -48,7 +48,15 @@ def get_users_current_status(cursor, user_id):
 
 @connection.connection_handler
 def get_all_expenses_by_user(cursor, user_id):
-    pass
+    cursor.execute("""
+                             SELECT category, amount FROM transactions
+                             INNER JOIN categories ON transactions.category = categories.category
+                             INNER JOIN users ON categories.user_id = users.id
+                             WHERE categories.income = False
+                             AND user.id = %(user_id)s;
+                               """,
+                   {"user_id": user_id})
+    return cursor.fetchall()
 
 
 @connection.connection_handler
