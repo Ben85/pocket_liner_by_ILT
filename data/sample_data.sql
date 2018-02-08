@@ -17,9 +17,11 @@ SET search_path = public, pg_catalog;
 
 ALTER TABLE IF EXISTS ONLY public.transactions DROP CONSTRAINT IF EXISTS transactions_fk;
 ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS users_id_pk;
+ALTER TABLE IF EXISTS public.users ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE IF EXISTS public.transactions ALTER COLUMN user_id DROP DEFAULT;
 ALTER TABLE IF EXISTS public.transactions ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE IF EXISTS public.categories ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE IF EXISTS public.users_id_seq;
 DROP TABLE IF EXISTS public.users;
 DROP SEQUENCE IF EXISTS public.transactions_user_id_seq;
 DROP SEQUENCE IF EXISTS public.transactions_id_seq;
@@ -131,11 +133,33 @@ ALTER SEQUENCE transactions_user_id_seq OWNED BY transactions.user_id;
 CREATE TABLE users (
     id integer NOT NULL,
     name character varying(15) NOT NULL,
-    e_mail character varying(255) NOT NULL
+    e_mail character varying(255) NOT NULL,
+    pass_hash character varying(255) NOT NULL
 );
 
 
 ALTER TABLE users OWNER TO bende;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: bende
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_id_seq OWNER TO bende;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bende
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: bende
@@ -156,6 +180,13 @@ ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_
 --
 
 ALTER TABLE ONLY transactions ALTER COLUMN user_id SET DEFAULT nextval('transactions_user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bende
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
@@ -195,6 +226,13 @@ SELECT pg_catalog.setval('transactions_user_id_seq', 1, false);
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: bende
 --
 
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bende
+--
+
+SELECT pg_catalog.setval('users_id_seq', 1, false);
 
 
 --
