@@ -1,4 +1,5 @@
 import connection
+import encryption
 
 @connection.connection_handler
 def register_user(cursor, new_user_data):
@@ -10,7 +11,12 @@ def register_user(cursor, new_user_data):
 
 @connection.connection_handler
 def get_user_id_by_email(cursor, e_mail):
-    pass
+    cursor.execute("""
+                      SELECT id FROM users
+                      WHERE e_mail = %(e_mail)s;
+    """, {'e_mail': e_mail})
+    id_dic = cursor.fetchone()
+    return id_dic['id']
 
 
 @connection.connection_handler
@@ -61,7 +67,11 @@ def insert_expense(cursor, user_id):
 
 @connection.connection_handler
 def get_user_data_by_id(cursor, user_id):
-    pass
+    cursor.execute("""
+                   SELECT * FROM users
+                   WHERE id = %(user_id)s
+                    """, {'user_id': user_id})
+    return cursor.fetchone()
 
 
 @connection.connection_handler
