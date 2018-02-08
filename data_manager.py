@@ -20,8 +20,18 @@ def get_user_id_by_email(cursor, e_mail):
 
 
 @connection.connection_handler
-def check_if_registered(cursor):
-    pass
+def email_used(cursor, e_mail_reg):
+    cursor.execute(
+        """
+        SELECT e_mail FROM users
+        WHERE e_mail = %(e_mail_reg)s; 
+        """,
+        {
+            'e_mail_reg' : e_mail_reg
+        }
+    )
+    used_email = cursor.fetchall()
+    return used_email
 
 
 @connection.connection_handler
