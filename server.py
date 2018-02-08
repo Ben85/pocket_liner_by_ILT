@@ -30,8 +30,6 @@ def route_logout():
     return redirect('/')
 
 
-
-
 @app.route('/registration', methods=['POST', 'GET'])
 def route_register():
     user_data = request.form.to_dict()
@@ -53,7 +51,7 @@ def route_login():
     return redirect(url_for('route_user_page', user_id=session['id']))
 
 
-@app.route('/<int:user_id>')
+@app.route('/profile')
 @login_required
 def route_user_page(user_id):
     return render_template('user_index.html', user_id=user_id)
