@@ -8,11 +8,16 @@
 <body>
 {{ user_name }}
 
-<p> <h2>Your Profile: </h2> </p>
-    <p>
-        {{ user_data['name'] }}<br>
-        {{ user_data["e_mail"] }}
-    </p>
+<p> <h2>Welcome {{ session['user_name'] }}! </h2>
+    <h3>{{ session["user_e_mail"] }} </h3>
+</p>
+
+<p>
+    <a href="/logout">Log out! </a>
+</p>
+
+
+
 </body>
 
 </html>

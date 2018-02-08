@@ -42,6 +42,7 @@ def login():
             user_data = data_manager.get_user_data_by_e_mail(request.form['e_mail'])
             session['user_id'] = user_data['id']
             session['user_name'] = user_data['name']
+            session['user_e_mail'] = user_data['e_mail']
             return redirect(url_for('home'))
     return render_template('login.html')
 
@@ -49,8 +50,8 @@ def login():
 @app.route('/')
 @login_required
 def home():
-    user_data = data_manager.get_users_current_status(session['user_id'])
-    return render_template('user_index.html', user_id=session['user_id'], user_name=session['user_name'], user_data=user_data)
+    # user_data = data_manager.get_users_current_status(session['user_id'])
+    return render_template('user_index.html')
 
 
 @app.route('/spend')

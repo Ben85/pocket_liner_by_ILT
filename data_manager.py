@@ -41,18 +41,8 @@ def get_users_last_month_balance(cursor, user_id):
 
 
 @connection.connection_handler
-def get_users_current_status(cursor, user_id):
+def get_users_current_balance(cursor, user_id):
     '''Shows the overall finantioal position you are in.'''
-    cursor.execute(
-        """
-        SELECT name, e_mail FROM users
-        WHERE id = %(user_id)s;
-        """,
-        {
-            "user_id": user_id
-        }
-    )
-    user = cursor.fetchall()
 
     cursor.execute(
         """
@@ -66,7 +56,7 @@ def get_users_current_status(cursor, user_id):
     )
     balance = cursor.fetchall()
 
-    return user, balance
+    return balance
 
 
 @connection.connection_handler
