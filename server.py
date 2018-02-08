@@ -32,7 +32,7 @@ def route_register():
         return render_template('login.html', is_email_used = True)
     user_data['password_reg'] = encryption.hash_password(request.form["password_reg"])
     data_manager.register_user(user_data)
-    return redirect(url_for('route_index'))
+    return redirect(url_for('login'))
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -49,7 +49,8 @@ def login():
 @app.route('/')
 @login_required
 def home():
-    return render_template('user_index.html', user_id=session['user_id'], user_name=session['user_name'])
+    user_data = data_manager.get_users_current_status(session['user_id'])
+    return render_template('user_index.html', user_id=session['user_id'], user_name=session['user_name'], user_data=user_data)
 
 
 @app.route('/spend')
@@ -64,10 +65,10 @@ def route_incomes():
     pass
 
 
-@app.route('/<int:user_id>/all-expenses')
+@app.route('/all-expenses')
 @login_required
-def route_all_expenses(user_id):
-    expenses = data_manager.get_all_expenses_by_user(user_id)
+def route_all_expenses():
+    expenses = data_manager.get_all_expenses_by_user(session['user_id'])
     return render_template('expenses.html', expenses=expenses)
 
 
