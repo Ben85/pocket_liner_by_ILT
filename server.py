@@ -42,6 +42,7 @@ def login():
             user_data = data_manager.get_user_data_by_e_mail(request.form['e_mail'])
             session['user_id'] = user_data['id']
             session['user_name'] = user_data['name']
+            session['user_e_mail'] = user_data['e_mail']
             return redirect(url_for('home'))
     return render_template('login.html')
 
@@ -49,7 +50,8 @@ def login():
 @app.route('/', methods=['POST', 'GET'])
 @login_required
 def home():
-    return render_template('user_index.html', user_id=session['user_id'], user_name=session['user_name'])
+    # user_data = data_manager.get_users_current_status(session['user_id'])
+    return render_template('user_index.html')
 
 
 @app.route('/spend', methods=['POST', 'GET'])
@@ -57,7 +59,7 @@ def home():
 def route_spend_money():
     spend_info = request.form.to_dict()
     spend_info['user_id'] = session['user_id']
-    spend_info['amount'] = abs(spend_info['amount'])
+    spend_info['amount'] = abs(int(spend_info['amount']))
     data_manager.insert_expense(spend_info)
     return redirect(url_for('home'))
 
@@ -66,7 +68,7 @@ def route_spend_money():
 def route_incomes():
     income_info = request.form.to_dict()
     income_info['user_id'] = session['user_id']
-    income_info['amount'] = abs(income_info['amount'])
+    income_info['amount'] = abs(int(income_info['amount']))
     data_manager.insert_income(income_info)
     return redirect(url_for('home'))
 
@@ -76,12 +78,6 @@ def route_incomes():
 def route_all_expenses():
     expenses = data_manager.get_all_expenses_by_user(session['user_id'])
     return render_template('expenses.html', expenses=expenses)
-
-
-@app.route('/inc_exp')
-@login_required
-def route_inc_exp():
-    return render_template('income_expense.html')
 
 
 
