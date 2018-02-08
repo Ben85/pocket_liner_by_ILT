@@ -9,11 +9,11 @@ app = Flask(__name__)
 
 def login_required(function):
     @wraps(function)
-    def decorated_function(args, **kwargs):
+    def decorated_function(*args, **kwargs):
         if session == {}:
             flash("For this you need to log in")
             return redirect(url_for('login', next=request.url))
-        return function(args, **kwargs)
+        return function(*args, **kwargs)
     return decorated_function
 
 
@@ -22,6 +22,12 @@ def login_required(function):
 def route_index():
     return render_template('index.html')
 
+
+@app.route('/logout')
+def route_logout():
+    session.clear()
+
+    return redirect('/')
 
 
 @app.route('/registration', methods=['POST', 'GET'])
@@ -37,16 +43,15 @@ def route_register():
 
 @app.route('/login', methods=['POST', 'GET'])
 def route_login():
-    test = request.form['e_mail']
     if validation.is_user_pass(request.form['password'], request.form['e_mail']):
         session['id'] = data_manager.get_user_id_by_email(request.form['e_mail'])
     else:
         raise ValueError('Incorrect password or e-mail')
 
-    return redirect(url_for('route_user_page'), session['id'])
+    return redirect(url_for('route_user_page', user_id=session['id']))
 
 
-@app.route('/<int:user_id>')
+@app.route('/profile')
 @login_required
 def route_user_page(user_id):
     return render_template('user_index.html', user_id=user_id)
