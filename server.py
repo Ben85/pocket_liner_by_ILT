@@ -22,6 +22,14 @@ def route_index():
     return render_template('index.html')
 
 
+@app.route('/logout')
+def route_logout():
+    session.clear()
+
+    return redirect('/')
+
+
+
 
 @app.route('/registration', methods=['POST', 'GET'])
 def route_register():
