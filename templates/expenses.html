@@ -11,14 +11,19 @@
     <th>
         Amount
     </th>
+    <th>
+        Note
+    </th>
         {% for expense in expenses %}
      <tr>
          <td>
              {{ expense.category }}
-
         </td>
         <td>
             {{ expense.amount }}
+        </td>
+        <td>
+            {{ expense.note }}
         </td>
      </tr>
         {% endfor %}
