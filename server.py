@@ -10,9 +10,9 @@ app = Flask(__name__)
 def login_required(function):
     @wraps(function)
     def decorated_function(*args, **kwargs):
-        if session == {}:
+        if session['id'] == {}:
             flash("For this you need to log in")
-            return redirect(url_for('login', next=request.url))
+            return redirect(url_for('/', next=request.url))
         return function(*args, **kwargs)
     return decorated_function
 
@@ -50,7 +50,7 @@ def route_login():
     return redirect(url_for('route_user_page', user_id=session['id']))
 
 
-@app.route('/profile')
+@app.route('/<int:user_id>')
 @login_required
 def route_user_page(user_id):
     return render_template('user_index.html', user_id=user_id)
@@ -68,12 +68,11 @@ def route_incomes():
     pass
 
 
-@app.route('/profile/all-expenses')
+@app.route('/<int:user_id>/all-expenses')
 @login_required
 def route_all_expenses(user_id):
     expenses = data_manager.get_all_expenses_by_user(user_id)
     return render_template('expenses.html', expenses=expenses)
-
 
 
 if __name__ == '__main__':
