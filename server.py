@@ -1,18 +1,12 @@
 from flask import Flask, redirect, render_template, url_for, request, session
 import data_manager
+import validation
 
 app = Flask(__name__)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def route_index():
-    if request.method == 'POST':
-        session.clear()
-
-        if request.form['password'] == 'password':
-            session['user'] = request.form['username']
-            return redirect(url_for('route_user_page'))
-
     return render_template('index.html')
 
 
@@ -21,17 +15,20 @@ def route_register():
     user_data = request.form.to_dict()
 
     data_manager.register_user(user_data)
-    return redirect(url_for(route_index))
+    return redirect(url_for('route_index'))
 
 
 @app.route('/login', methods=['POST', 'GET'])
 def route_login():
-    pass
+    if request.method == 'POST':
+        session['id'] = data_manager.get_user_id_by_email(request.form['e_mail'])
 
+        validation.is_user_pass(request.form['password'], session['id'])
+    return redirect(url_for('route_user_page', session['id']))
 
 @app.route('/<user_id>')
 def route_user_page(id):
-    return render_template('user_index.html')
+    pass
 
 
 @app.route('/spend')
