@@ -60,9 +60,11 @@ def get_all_expenses_by_user(cursor, user_id):
 
 
 @connection.connection_handler
-def insert_expense(cursor, user_id):
-    """ dont forget the notes"""
-    pass
+def insert_expense(cursor, spend_info):
+    cursor.execute("""
+                    INSERT INTO transactions (category, date, amount, note, user_id) 
+                    VALUES (%(category)s, %(date)s, %(amount)s, %(note)s, %(user_id)s);
+                    """, spend_info)
 
 
 @connection.connection_handler
@@ -84,7 +86,10 @@ def get_user_data_by_e_mail(cursor, e_mail):
 
 
 @connection.connection_handler
-def insert_income(cursor, user_id):
-    pass
+def insert_income(cursor, income_info):
+    cursor.execute("""
+                        INSERT INTO transactions (category, date, amount, user_id) 
+                        VALUES (%(category)s, %(date)s, %(amount)s, %(user_id)s);
+        """, income_info)
 
 

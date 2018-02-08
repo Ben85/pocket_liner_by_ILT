@@ -46,22 +46,29 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 @login_required
 def home():
     return render_template('user_index.html', user_id=session['user_id'], user_name=session['user_name'])
 
 
-@app.route('/spend')
+@app.route('/spend', methods=['POST', 'GET'])
 @login_required
 def route_spend_money():
-    pass
+    spend_info = request.form.to_dict()
+    spend_info['user_id'] = session['user_id']
+    spend_info['amount'] = abs(spend_info['amount'])
+    data_manager.insert_expense(spend_info)
+    return redirect(url_for('home'))
 
-
-@app.route('/incomes')
+@app.route('/incomes', methods=['POST', 'GET'])
 @login_required
 def route_incomes():
-    pass
+    income_info = request.form.to_dict()
+    income_info['user_id'] = session['user_id']
+    income_info['amount'] = abs(income_info['amount'])
+    data_manager.insert_income(income_info)
+    return redirect(url_for('home'))
 
 
 @app.route('/<int:user_id>/all-expenses')
@@ -69,6 +76,13 @@ def route_incomes():
 def route_all_expenses(user_id):
     expenses = data_manager.get_all_expenses_by_user(user_id)
     return render_template('expenses.html', expenses=expenses)
+
+
+@app.route('/inc_exp')
+@login_required
+def route_inc_exp():
+    return render_template('income_expense.html')
+
 
 
 if __name__ == '__main__':
