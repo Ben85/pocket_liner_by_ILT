@@ -42,11 +42,10 @@ def route_login():
     else:
         raise ValueError('Incorrect password or e-mail')
 
-    return redirect(url_for('route_user_page'), session['id'])
+    return redirect(url_for('route_user_page', user_id=session['id']))
 
 
 @app.route('/<int:user_id>')
-@login_required
 def route_user_page(user_id):
     return render_template('user_index.html', user_id=user_id)
 
