@@ -47,23 +47,30 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 @login_required
 def home():
     # user_data = data_manager.get_users_current_status(session['user_id'])
     return render_template('user_index.html')
 
 
-@app.route('/spend')
+@app.route('/spend', methods=['POST', 'GET'])
 @login_required
 def route_spend_money():
-    pass
+    spend_info = request.form.to_dict()
+    spend_info['user_id'] = session['user_id']
+    spend_info['amount'] = abs(int(spend_info['amount']))
+    data_manager.insert_expense(spend_info)
+    return redirect(url_for('home'))
 
-
-@app.route('/incomes')
+@app.route('/incomes', methods=['POST', 'GET'])
 @login_required
 def route_incomes():
-    pass
+    income_info = request.form.to_dict()
+    income_info['user_id'] = session['user_id']
+    income_info['amount'] = abs(int(income_info['amount']))
+    data_manager.insert_income(income_info)
+    return redirect(url_for('home'))
 
 
 @app.route('/all-expenses')
@@ -71,6 +78,7 @@ def route_incomes():
 def route_all_expenses():
     expenses = data_manager.get_all_expenses_by_user(session['user_id'])
     return render_template('expenses.html', expenses=expenses)
+
 
 
 if __name__ == '__main__':
