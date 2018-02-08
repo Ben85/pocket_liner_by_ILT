@@ -42,6 +42,7 @@ def login():
             user_data = data_manager.get_user_data_by_e_mail(request.form['e_mail'])
             session['user_id'] = user_data['id']
             session['user_name'] = user_data['name']
+            session['user_e_mail'] = user_data['e_mail']
             return redirect(url_for('home'))
     return render_template('login.html')
 
@@ -49,7 +50,8 @@ def login():
 @app.route('/', methods=['POST', 'GET'])
 @login_required
 def home():
-    return render_template('user_index.html', user_id=session['user_id'], user_name=session['user_name'])
+    # user_data = data_manager.get_users_current_status(session['user_id'])
+    return render_template('user_index.html')
 
 
 @app.route('/spend', methods=['POST', 'GET'])
@@ -71,17 +73,11 @@ def route_incomes():
     return redirect(url_for('home'))
 
 
-@app.route('/<int:user_id>/all-expenses')
+@app.route('/all-expenses')
 @login_required
-def route_all_expenses(user_id):
-    expenses = data_manager.get_all_expenses_by_user(user_id)
+def route_all_expenses():
+    expenses = data_manager.get_all_expenses_by_user(session['user_id'])
     return render_template('expenses.html', expenses=expenses)
-
-
-@app.route('/inc_exp')
-@login_required
-def route_inc_exp():
-    return render_template('income_expense.html')
 
 
 
