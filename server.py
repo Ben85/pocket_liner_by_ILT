@@ -32,7 +32,7 @@ def route_register():
         return render_template('login.html', is_email_used = True)
     user_data['password_reg'] = encryption.hash_password(request.form["password_reg"])
     data_manager.register_user(user_data)
-    return redirect(url_for('route_index'))
+    return redirect(url_for('login'))
 
 
 @app.route('/login', methods=['POST', 'GET'])
