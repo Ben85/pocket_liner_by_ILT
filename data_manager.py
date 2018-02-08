@@ -41,19 +41,32 @@ def get_users_last_month_balance(cursor, user_id):
 
 
 @connection.connection_handler
-def get_users_current_status(cursor, user_id):
+def get_users_current_balance(cursor, user_id):
     '''Shows the overall finantioal position you are in.'''
-    pass
+
+    cursor.execute(
+        """
+        SELECT SUM(amount) FROM transactions
+        JOIN users ON transactions.user_id = users.id
+        WHERE users.id = %(user_id)s;
+        """,
+        {
+            "user_id": user_id
+        }
+    )
+    balance = cursor.fetchall()
+
+    return balance
 
 
 @connection.connection_handler
 def get_all_expenses_by_user(cursor, user_id):
     cursor.execute("""
                              SELECT category, amount FROM transactions
-                             INNER JOIN categories ON transactions.category = categories.category
+                             INNER JOIN categories ON transactions.category_id = categories.id
                              INNER JOIN users ON categories.user_id = users.id
                              WHERE categories.income = False
-                             AND user.id = %(user_id)s;
+                             AND users.id = %(user_id)s;
                                """,
                    {"user_id": user_id})
     return cursor.fetchall()
