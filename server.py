@@ -29,20 +29,20 @@ def route_register():
     is_email_used = data_manager.email_used(request.form["e_mail_reg"])
     if len(is_email_used) > 0:
         return render_template('index.html', is_email_used = True)
-    user_data['password_reg'] = encryption.hash_password('password_reg')
+    user_data['password_reg'] = encryption.hash_password(request.form["password_reg"])
     data_manager.register_user(user_data)
     return redirect(url_for('route_index'))
 
 
 @app.route('/login', methods=['POST', 'GET'])
 def route_login():
-    if request.method == 'POST':
-        if validation.is_user_pass(request.form['password'], request.form['e_mail']):
-            session['id'] = data_manager.get_user_id_by_email(request.form['e_mail'])
-        else:
-            raise ValueError('Incorrect password or e-mail')
+    test = request.form['e_mail']
+    if validation.is_user_pass(request.form['password'], request.form['e_mail']):
+        session['id'] = data_manager.get_user_id_by_email(request.form['e_mail'])
+    else:
+        raise ValueError('Incorrect password or e-mail')
 
-    return redirect(url_for('route_user_page', session['id']))
+    return redirect(url_for('route_user_page'), session['id'])
 
 
 @app.route('/<int:user_id>')

@@ -63,7 +63,7 @@ def get_user_data_by_id(cursor, user_id):
                    SELECT * FROM users
                    WHERE id = %(user_id)s
                     """, {'user_id': user_id})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 @connection.connection_handler
