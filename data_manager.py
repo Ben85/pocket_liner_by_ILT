@@ -22,7 +22,7 @@ def get_all_expenses_by_user(cursor, user_id):
                              WHERE categories.income = False
                              AND user.id = %(user_id)s;
                                """,
-                   {"user_id": user_id}
+                   {"user_id": user_id})
     return cursor.fetchall()
 
 
