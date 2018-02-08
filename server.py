@@ -35,7 +35,7 @@ def route_login():
 
 
 @app.route('/<user_id>')
-def route_user_page(id):
+def route_user_page(user_id):
     return render_template('user_index.html')
 
 
