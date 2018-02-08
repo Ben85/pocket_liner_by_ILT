@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Add income</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
     <h1>Add new income / expense </h1>
 
 <div>
-<form>
+<form method="post" action="{{ url_for('route_incomes') }}">
     <p>Income category:</p>
     <select category>
         <option disabled selected value> - select an option - </option>
@@ -17,18 +18,18 @@
         <option value="gift">Gift</option>
         <option value="income_else">Income, else</option>
     </select>
-    <input type="number" id="amount" name="amount" placeholder="amount" required>
-    <input type="date" name="date" placeholder="date" required>
+    <input type="number" id="in_amount" name="amount" placeholder="amount" required>
+    <input type="date" id="in_date" name="date" placeholder="date" required>
     <label for="date"> (e.g. 2018-01-01)</label>
     <button type="submit">Income</button>
 </form>
 </div>
 
 <div>
-<form>
+<form method="post" action="{{ url_for('route_spend_money') }}">
     <p>Expense category:</p>
     <select name="category" required>
-        <option disabled selected value> - select and option - </option>
+        <option disabled selected value> - select an option - </option>
         <option value="food">Food</option>
         <option value="health">Health</option>
         <option value="clothes">Clothes</option>
@@ -49,6 +50,9 @@
     <button type="submit">Spent</button>
 </form>
 </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </body>
 </html>

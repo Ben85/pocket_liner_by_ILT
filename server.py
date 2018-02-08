@@ -41,17 +41,19 @@ def route_user_page(user_id):
 
 @app.route('/spend')
 def route_spend_money():
-    pass
-
+    spend_info = request.form.to_dict()
+    data_manager.insert_expense(spend_info)
+    return redirect(url_for('route_user_page'))
 
 @app.route('/incomes')
 def route_incomes():
-    pass
-
+    income_info = request.form.to_dict()
+    data_manager.insert_income(income_info)
+    return redirect(url_for('route_user_page'))
 
 @app.route('/all-expenses')
 def route_all_expenses():
-    pass
+    return render_template('income_expense.html')
 
 
 
