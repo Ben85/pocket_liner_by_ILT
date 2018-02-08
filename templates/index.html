@@ -2,9 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PocketLiner 1.0</title>
+    <title>Pocket Liner Login</title>
 </head>
 <body>
+
+<form method="post" action="{{ url_for('route_register') }}">
+
+    <label for="username_reg">User Name:</label>
+    <input type="text" name="username_reg" id = "username_reg" required>
+    <label for="password_reg">Password:</label>
+    <input type="password" name="password_reg" id="password_reg" required>
+    <label for="e-mail_reg">E-mail Address:</label>
+    <input type="text" name="e_mail_reg" id="e-mail_reg" required>
+    <button type="submit">Register</button>
+
+</form>
+
+<form method="post" action="{{ url_for('route_login') }}">
+
+    <label for="e_mail">E-mail Address:</label>
+    <input type="text" name="e_mail" id = "e_mail" required>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required>
+    <button type="submit">Login</button>
+
+</form>
+
+{% if is_email_used %}
+<h3> e-mail already used </h3>
+{% endif %}
 
 </body>
 </html>

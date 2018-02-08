@@ -17,7 +17,6 @@ def login_required(function):
     return decorated_function
 
 
-@app.route('/', methods=['GET', 'POST'])
 @app.route('/')
 def route_index():
     return render_template('index.html')
@@ -69,7 +68,8 @@ def route_incomes():
     pass
 
 
-@app.route('/<user_id>/all-expenses')
+@app.route('/profile/all-expenses')
+@login_required
 def route_all_expenses(user_id):
     expenses = data_manager.get_all_expenses_by_user(user_id)
     return render_template('expenses.html', expenses=expenses)
