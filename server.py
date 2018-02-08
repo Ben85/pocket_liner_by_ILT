@@ -66,7 +66,7 @@ def route_spend_money():
 @app.route('/incomes', methods=['POST', 'GET'])
 @login_required
 def route_incomes():
-    income_info = requestus.form.to_dict()
+    income_info = request.form.to_dict()
     income_info['user_id'] = session['user_id']
     income_info['amount'] = abs(int(income_info['amount']))
     data_manager.insert_income(income_info)
